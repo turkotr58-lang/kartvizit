@@ -1,0 +1,32 @@
+{
+  "name": "Tuncay Türkoğlu · Kartvizit",
+  "short_name": "Kartvizitim",
+  "description": "Dijital kartvizit: QR kodunu göster, karşı taraf okutup rehberine kaydetsin.",
+  "lang": "tr",
+  "start_url": "./?qr=1",
+  "scope": "./",
+  "display": "standalone",
+  "orientation": "portrait",
+  "background_color": "#FFFFFF",
+  "theme_color": "#181F33",
+  "icons": [
+    {
+      "src": "pwa/icon-192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "pwa/icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "pwa/maskable-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "maskable"
+    }
+  ]
+}
