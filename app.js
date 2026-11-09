@@ -1,6 +1,8 @@
 import { CARD, toVCard, fullName } from './card.js';
 
 const $ = (s, r = document) => r.querySelector(s);
+// Çeviriler: sayfaya gömülü i18n.js telefon dilini seçip self.KV_I18N.dict'e koyar.
+const t = (k) => self.KV_I18N?.dict?.[k] ?? self.KV_I18N?.t?.tr?.[k] ?? k;
 const store = {
   get(k) { try { return localStorage.getItem(k); } catch { return null; } },
   set(k, v) { try { localStorage.setItem(k, v); } catch { /* özel pencere vb. */ } },
@@ -40,16 +42,8 @@ function qrSvg(text) {
 }
 
 const MODES = {
-  web: {
-    text: () => pageUrl(),
-    hint: 'Okutan kişinin telefonunda bu kartvizit açılır; “Rehbere kaydet” ile tek dokunuşta kaydeder.',
-    label: 'Kartvizit bağlantısı',
-  },
-  vcard: {
-    text: () => toVCard(CARD, { compact: true }),
-    hint: 'İnternet gerekmez: QR okutulunca doğrudan “Kişi ekle” ekranı açılır.',
-    label: 'Rehber kartı (vCard)',
-  },
+  web: { text: () => pageUrl(), hint: 'hintWeb', label: 'labelWeb' },
+  vcard: { text: () => toVCard(CARD, { compact: true }), hint: 'hintVcard', label: 'labelVcard' },
 };
 
 const dlg = $('#qr');
@@ -61,8 +55,8 @@ let wake = null;
 function render() {
   const m = MODES[mode];
   box.innerHTML = qrSvg(m.text());
-  box.setAttribute('aria-label', `${m.label} QR kodu`);
-  hint.textContent = m.hint;
+  box.setAttribute('aria-label', `${t(m.label)} · ${t('qrAria')}`);
+  hint.textContent = t(m.hint);
   for (const b of dlg.querySelectorAll('.seg button')) b.setAttribute('aria-selected', String(b.dataset.mode === mode));
 }
 
@@ -109,22 +103,23 @@ function toast(msg) {
 }
 
 // Paylaşım metni: bağlantı en sonda, WhatsApp vb. önizleme kartını (logo + ad) ondan üretir.
-const shareText = () => `${CARD.shareText}\n${fullName()}\n${CARD.company}\n${CARD.org} · ${CARD.brands.bottimmo.name}`;
+// Mesaj, paylaşan telefonun dilinde yazılır; alıcı bağlantıyı açınca kendi dilinde görür.
+const shareText = () => `${t('shareText')}\n${fullName()}\n${CARD.company}\n${CARD.org} · ${CARD.brands.bottimmo.name}`;
 const shareMessage = () => `${shareText()}\n${pageUrl()}`;
 
 async function copyLink() {
   try {
     await navigator.clipboard.writeText(pageUrl());
-    toast('Bağlantı kopyalandı');
+    toast(t('copied'));
   } catch {
-    window.prompt('Kartvizit bağlantısı:', pageUrl());
+    window.prompt(t('linkPrompt'), pageUrl());
   }
 }
 
 async function share() {
   if (navigator.share) {
     try {
-      await navigator.share({ title: `${fullName()} · Dijital kartvizit`, text: shareText(), url: pageUrl() });
+      await navigator.share({ title: `${fullName()} · ${t('shareTitle')}`, text: shareText(), url: pageUrl() });
     } catch { /* kullanıcı vazgeçti */ }
     return;
   }
@@ -159,6 +154,14 @@ for (const b of document.querySelectorAll('[data-copy]')) b.addEventListener('cl
 if (!navigator.share) for (const b of document.querySelectorAll('[data-native-share]')) b.hidden = true;
 prepareVcf();
 
+// Dil değişince (alttaki seçici): QR açıklaması ve dile özel rehber dosyası yenilenir.
+document.addEventListener('kv:lang', () => {
+  if (dlg.open) render();
+  vcfFile = null;
+  prepareVcf();
+  if (!installNote.hidden) installNote.textContent = t(ios ? 'installIos' : 'installAndroid');
+});
+
 /* ---------- ana ekrana ekle (uygulama) ---------- */
 const installBtn = $('#installBtn');
 const installNote = $('#installNote');
@@ -181,11 +184,9 @@ installBtn.addEventListener('click', async () => {
     return;
   }
   installNote.hidden = false;
-  installNote.textContent = ios
-    ? 'Safari’de alttaki Paylaş düğmesine (kare ve ok) dokunun, “Ana Ekrana Ekle”yi seçin. Uygulama her açılışta doğrudan bu QR ekranıyla başlar.'
-    : 'Tarayıcı menüsünden (⋮) “Ana ekrana ekle” veya “Uygulamayı yükle”yi seçin. Uygulama her açılışta doğrudan bu QR ekranıyla başlar.';
+  installNote.textContent = t(ios ? 'installIos' : 'installAndroid');
 });
-addEventListener('appinstalled', () => { installBtn.hidden = true; toast('Ana ekrana eklendi'); });
+addEventListener('appinstalled', () => { installBtn.hidden = true; toast(t('installed')); });
 
 /* ---------- açılış ---------- */
 const params = new URLSearchParams(location.search);

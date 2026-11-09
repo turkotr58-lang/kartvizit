@@ -200,6 +200,23 @@ h1{margin:14px 0 2px;font-size:28px;line-height:1.15;font-weight:700;letter-spac
 .review .stars{color:#F5B301;letter-spacing:1px;font-size:15px;}
 
 .foot{padding:22px 22px 8px;text-align:center;font-size:12px;line-height:1.5;color:var(--text-3);}
+.foot .lang{
+  display:flex;align-items:center;gap:6px;width:max-content;margin:14px auto 0;padding:7px 12px;
+  border-radius:12px;background:var(--surface-2);color:var(--text-2);cursor:pointer;
+}
+.foot .lang svg.i{width:16px;height:16px;}
+.foot select{
+  -webkit-appearance:none;appearance:none;border:0;background:transparent;color:inherit;
+  font:inherit;font-size:13.5px;font-weight:500;padding:0 2px;cursor:pointer;
+}
+.foot select option{color:#141A2B;background:#fff;}
+
+/* sağdan sola diller (Arapça): yön okları ters çevrilir */
+[dir="rtl"] .chev,[dir="rtl"] .go svg{transform:scaleX(-1);}
+/* Latin harfli ad, şirket ve logo yazıları her dilde soldan sağa kalır (nokta ve ® yerinde durur) */
+h1,.role,.qr h2,.qr-sub,.wordmark{direction:ltr;unicode-bidi:isolate;}
+[dir="rtl"] .list .tx{text-align:right;}
+[dir="rtl"] body{font-family:system-ui,-apple-system,"Segoe UI",Tahoma,"Noto Sans Arabic",Arial,sans-serif;}
 
 /* ---------- alt çubuk ---------- */
 .dock{
@@ -236,7 +253,7 @@ h1{margin:14px 0 2px;font-size:28px;line-height:1.15;font-weight:700;letter-spac
   padding:calc(18px + env(safe-area-inset-top)) 20px calc(20px + env(safe-area-inset-bottom));
 }
 .qr-close{
-  position:absolute;top:calc(10px + env(safe-area-inset-top));right:10px;
+  position:absolute;top:calc(10px + env(safe-area-inset-top));inset-inline-end:10px;
   width:46px;height:46px;border:0;border-radius:50%;background:#F1F3F8;color:#141A2B;
   display:grid;place-items:center;cursor:pointer;
 }

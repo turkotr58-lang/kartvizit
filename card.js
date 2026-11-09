@@ -19,8 +19,7 @@ export const CARD = {
   phoneDisplay: '+90 555 554 81 72',
   whatsapp: '905555548172',
   whatsappText: 'Merhaba Tuncay Bey, kartvizitinizden ulaşıyorum.',
-  // Kartviziti WhatsApp vb. ile gönderirken mesajın başı (ardından ad, unvan ve bağlantı eklenir)
-  shareText: 'Merhaba, dijital kartvizitim aşağıda. Tek dokunuşla rehberinize kaydedebilirsiniz:',
+  // Sayfadaki metinler, marka açıklamaları ve paylaşım mesajı 6 dilde src/i18n.js içinde.
   email: 'turkiye@immoviewer.tech',
 
   address: {
@@ -39,13 +38,10 @@ export const CARD = {
       name: 'immoviewer Türkiye',
       url: 'https://www.immoviewer.tech',
       urlDisplay: 'www.immoviewer.tech',
-      tagline: 'Sanal tur, 3D dollhouse ve dijital yer gösterme. Emlakçının en iyi arkadaşı.',
     },
     bottimmo: {
       name: 'BOTTIMMO® Türkiye',
       url: 'https://turkotr58-lang.github.io/bottimmo-tr/',
-      urlDisplay: 'BOTTIMMO Türkiye sitesi',
-      tagline: 'Emlak ofisleri için pazarlama ve portföy kazanma sistemi. Türkiye yetkili distribütörü.',
     },
   },
 
@@ -90,8 +86,9 @@ function fold(line) {
  * vCard üretir.
  * compact: QR içine gömülecek kısa sürüm (fotoğraf, not ve sosyal hesaplar olmadan).
  * photo:   base64 JPEG (yalnızca indirilen .vcf için).
+ * t:       src/i18n.js'teki dil sözlüğü (not ve etiket o dilde yazılır).
  */
-export function toVCard(c = CARD, { compact = false, photo = '' } = {}) {
+export function toVCard(c = CARD, { compact = false, photo = '', t = null } = {}) {
   const a = c.address;
   if (compact) {
     // QR'a sığması için en kısa hâli: telefon kamerası bunu doğrudan "Kişi ekle" olarak açar.
@@ -124,13 +121,13 @@ export function toVCard(c = CARD, { compact = false, photo = '' } = {}) {
   ];
   if (!compact) {
     L.push(`item2.URL:${c.brands.bottimmo.url}`, 'item2.X-ABLabel:BOTTIMMO');
-    L.push(`item3.URL:${c.url}`, 'item3.X-ABLabel:Dijital kartvizit');
+    L.push(`item3.URL:${c.url}`, `item3.X-ABLabel:${esc(t?.vcardLabel || 'Dijital kartvizit')}`);
   }
   L.push(
     `ADR;TYPE=WORK:;${esc(a.building)};${esc(a.street)};${esc(a.district)};${esc(a.city)};${esc(a.postal)};${esc(a.country)}`
   );
   if (!compact) {
-    L.push(`NOTE:${esc(`${c.brands.immoviewer.name}: ${c.brands.immoviewer.tagline}\n${c.brands.bottimmo.name}: ${c.brands.bottimmo.tagline}`)}`);
+    if (t) L.push(`NOTE:${esc(`${c.brands.immoviewer.name}: ${t.ivTagline}\n${c.brands.bottimmo.name}: ${t.btTagline}`)}`);
     for (const s of c.social) L.push(`X-SOCIALPROFILE;TYPE=${s.id}:${s.url}`);
     if (photo) L.push(`PHOTO;ENCODING=b;TYPE=JPEG:${photo}`);
   }
