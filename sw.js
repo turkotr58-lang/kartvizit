@@ -1,5 +1,5 @@
 // Çevrimdışı önbellek: kartvizit ve QR ekranı internet yokken de açılır.
-const CACHE = 'kartvizit-14b7f0aa64';
+const CACHE = 'kartvizit-abad5b340d';
 const FONTS = 'kartvizit-fonts';
 const ASSETS = ["./","index.html","card.js","app.js","styles.css","vendor/qrcode.js","img/immoviewer.svg","img/immoviewer-white.svg","pwa/favicon.svg","pwa/icon-192.png","pwa/apple-touch-icon.png","manifest.webmanifest","tuncay-turkoglu.vcf"];
 

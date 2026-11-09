@@ -109,7 +109,7 @@ function toast(msg) {
 }
 
 // Paylaşım metni: bağlantı en sonda, WhatsApp vb. önizleme kartını (logo + ad) ondan üretir.
-const shareText = () => `${CARD.shareText}\n${fullName()} · ${CARD.title}\n${CARD.org} · ${CARD.brands.bottimmo.name}`;
+const shareText = () => `${CARD.shareText}\n${fullName()}\n${CARD.company}\n${CARD.org} · ${CARD.brands.bottimmo.name}`;
 const shareMessage = () => `${shareText()}\n${pageUrl()}`;
 
 async function copyLink() {

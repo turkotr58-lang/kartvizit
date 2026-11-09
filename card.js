@@ -9,7 +9,8 @@ export const CARD = {
 
   firstName: 'Tuncay',
   lastName: 'Türkoğlu',
-  title: 'Şirket Müdürü',
+  // Unvan: boş bırakılırsa hiçbir yerde gösterilmez. İsmin altında şirket adı (company) yazar.
+  title: '',
   company: 'Türkoğlu İnternet ve Yazılım San. Tic. Ltd. Şti.',
   companyShort: 'Türkoğlu İnt. ve Yaz. Ltd. Şti.',
   org: 'immoviewer Türkiye',
@@ -99,22 +100,23 @@ export function toVCard(c = CARD, { compact = false, photo = '' } = {}) {
       'VERSION:3.0',
       `N:${esc(c.lastName)};${esc(c.firstName)}`,
       `FN:${esc(fullName(c))}`,
-      `ORG:${esc(c.org)}`,
-      `TITLE:${esc(c.title)}`,
+      `ORG:${esc(c.company)}`,
+      c.title && `TITLE:${esc(c.title)}`,
       `TEL;TYPE=CELL:${c.phone}`,
       `EMAIL:${c.email}`,
       `URL:${c.brands.immoviewer.url}`,
       `ADR:;;${esc(a.street.split(',').pop().trim())} ${esc(a.building.match(/\d[\d/-]*/)?.[0] || '')};${esc(a.district)};${esc(a.city)};${esc(a.postal)};${esc(a.country)}`,
       'END:VCARD',
-    ].join('\r\n');
+    ].filter(Boolean).join('\r\n');
   }
   const L = [
     'BEGIN:VCARD',
     'VERSION:3.0',
     `N:${esc(c.lastName)};${esc(c.firstName)};;;`,
     `FN:${esc(fullName(c))}`,
-    `ORG:${esc(c.org)};${esc(compact ? c.companyShort : c.company)}`,
-    `TITLE:${esc(c.title)}`,
+    // Şirket (asıl) ; bölüm/marka
+    `ORG:${esc(c.company)};${esc(c.org)}`,
+    ...(c.title ? [`TITLE:${esc(c.title)}`] : []),
     `TEL;TYPE=CELL,VOICE:${c.phone}`,
     `EMAIL;TYPE=INTERNET,WORK:${c.email}`,
     `item1.URL:${c.brands.immoviewer.url}`,

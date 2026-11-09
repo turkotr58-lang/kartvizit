@@ -115,7 +115,8 @@ svg.b{width:20px;height:20px;flex-shrink:0;fill:currentColor;}
 }
 .avatar img{width:100%;height:100%;object-fit:cover;display:block;}
 h1{margin:14px 0 2px;font-size:28px;line-height:1.15;font-weight:700;letter-spacing:-.015em;}
-.role{margin:0;color:var(--text-2);font-size:16px;font-weight:500;}
+.role{margin:2px auto 0;max-width:300px;color:var(--text-2);font-size:16px;font-weight:600;line-height:1.35;text-wrap:balance;}
+.role-sub{margin:2px 0 0;color:var(--text-3);font-size:14.5px;}
 .org{margin:10px 0 0;display:flex;flex-wrap:wrap;justify-content:center;gap:8px;}
 .chip{
   display:inline-flex;align-items:center;gap:6px;
@@ -246,7 +247,7 @@ h1{margin:14px 0 2px;font-size:28px;line-height:1.15;font-weight:700;letter-spac
 .qr-lock svg{width:21px;height:21px;--logo-square:#24463A;--logo-letter:#FFFFFF;}
 .qr-lock .wordmark{font-size:13.5px;color:#24463A;}
 .qr h2{margin:0;font-size:24px;font-weight:700;letter-spacing:-.01em;}
-.qr-sub{margin:2px 0 0;color:#4A5370;font-size:15px;}
+.qr-sub{margin:2px auto 0;max-width:320px;color:#4A5370;font-size:15px;line-height:1.35;text-wrap:balance;}
 .qr-box{
   margin:18px 0 0;width:min(86vw,62vh,380px);aspect-ratio:1;
   padding:10px;border-radius:24px;background:#fff;
