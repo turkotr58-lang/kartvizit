@@ -45,7 +45,8 @@ export const CARD = {
   // Alıcı adı: şirket unvanı (company).
   bank: [
     { currency: 'TRY', bank: 'Garanti Bankası', iban: 'TR200006200154500006299091' },
-    { currency: 'EUR', bank: 'Garanti Bankası', iban: 'TR070006200154500009099036' },
+    // swift: yurt dışından havale için (Garanti BBVA genel merkez kodu)
+    { currency: 'EUR', bank: 'Garanti Bankası', iban: 'TR070006200154500009099036', swift: 'TGBATRISXXX' },
   ],
 
   brands: {
@@ -94,7 +95,12 @@ export function billingText(c = CARD, t, { link = '', bold = false } = {}) {
     `${t.lblTaxOffice}: ${b.taxOffice} · ${t.lblTaxNo}: ${b.taxNo}`,
     `${t.lblMersis}: ${b.mersis} · ${t.lblTradeReg}: ${b.tradeReg}`,
     '',
-    ...c.bank.flatMap((k) => [B(`${t[`acc${k.currency}`] || k.currency} · ${k.bank}`), `IBAN: ${ibanGroups(k.iban)}`, '']),
+    ...c.bank.flatMap((k) => [
+      B(`${t[`acc${k.currency}`] || k.currency} · ${k.bank}`),
+      `IBAN: ${ibanGroups(k.iban)}`,
+      ...(k.swift ? [`SWIFT/BIC: ${k.swift}`] : []),
+      '',
+    ]),
     `${t.lblHolder}: ${c.company}`,
     ...(link ? ['', `${t.billLink}`, link] : []),
   ].join('\n');

@@ -1,4 +1,4 @@
-import { CARD, toVCard, fullName, billingText } from './card.js?v=62814a9dd4';
+import { CARD, toVCard, fullName, billingText } from './card.js?v=d32e2d85c4';
 
 const $ = (s, r = document) => r.querySelector(s);
 // Çeviriler: sayfaya gömülü i18n.js telefon dilini seçip self.KV_I18N.dict'e koyar.
