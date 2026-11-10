@@ -33,6 +33,21 @@ export const CARD = {
   // Google işletme profili (immoviewer | Türkiye)
   mapsUrl: 'https://maps.google.com/?cid=7182467155729219089',
 
+  // Fatura ve banka bilgileri: kartın ana sayfasında görünmez. QR ekranındaki
+  // "Fatura / banka" düğmesiyle açılır ve gönderilir (bağlantı: ?fatura).
+  billing: {
+    taxOffice: 'Çankaya',
+    taxNo: '8800313762',
+    mersis: '088003137200019',
+    tradeReg: '399757',
+  },
+  // IBAN boşluksuz yazılır; ekranda 4'lü gruplar hâlinde gösterilir.
+  // Alıcı adı: şirket unvanı (company).
+  bank: [
+    { currency: 'TRY', bank: 'Garanti Bankası', iban: 'TR200006200154500006299091' },
+    { currency: 'EUR', bank: 'Garanti Bankası', iban: 'TR070006200154500009099036' },
+  ],
+
   brands: {
     immoviewer: {
       name: 'immoviewer Türkiye',
@@ -56,6 +71,34 @@ export const CARD = {
 };
 
 export const fullName = (c = CARD) => `${c.firstName} ${c.lastName}`;
+
+export const ibanGroups = (iban) => iban.replace(/\s/g, '').replace(/(.{4})(?=.)/g, '$1 ');
+export const addressLine = (c = CARD) => {
+  const a = c.address;
+  return `${a.street}, ${a.building}, ${a.postal} ${a.district}/${a.city}`;
+};
+
+/**
+ * WhatsApp ve diğer uygulamalarla gönderilen fatura + banka mesajı.
+ * t:    src/i18n.js'teki dil sözlüğü (etiketler o dilde yazılır).
+ * bold: WhatsApp kalın yazısı (*...*); diğer uygulamalar ve kopyalama için kapalı.
+ * link: alıcının IBAN'ı tek dokunuşla kopyalayacağı sayfa (…/?fatura).
+ */
+export function billingText(c = CARD, t, { link = '', bold = false } = {}) {
+  const b = c.billing;
+  const B = (s) => (bold ? `*${s}*` : s);
+  return [
+    B(t.billTitle),
+    `${t.lblTitle}: ${c.company}`,
+    `${t.lblAddress}: ${addressLine(c)}`,
+    `${t.lblTaxOffice}: ${b.taxOffice} · ${t.lblTaxNo}: ${b.taxNo}`,
+    `${t.lblMersis}: ${b.mersis} · ${t.lblTradeReg}: ${b.tradeReg}`,
+    '',
+    ...c.bank.flatMap((k) => [B(`${t[`acc${k.currency}`] || k.currency} · ${k.bank}`), `IBAN: ${ibanGroups(k.iban)}`, '']),
+    `${t.lblHolder}: ${c.company}`,
+    ...(link ? ['', `${t.billLink}`, link] : []),
+  ].join('\n');
+}
 
 // vCard 3.0 metin kaçışı (virgül, noktalı virgül, ters bölü, satır sonu)
 const esc = (s) => String(s).replace(/\\/g, '\\\\').replace(/\n/g, '\\n').replace(/([,;])/g, '\\$1');

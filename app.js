@@ -1,8 +1,9 @@
-import { CARD, toVCard, fullName } from './card.js';
+import { CARD, toVCard, fullName, billingText } from './card.js?v=62814a9dd4';
 
 const $ = (s, r = document) => r.querySelector(s);
 // Çeviriler: sayfaya gömülü i18n.js telefon dilini seçip self.KV_I18N.dict'e koyar.
-const t = (k) => self.KV_I18N?.dict?.[k] ?? self.KV_I18N?.t?.tr?.[k] ?? k;
+const dict = () => self.KV_I18N?.dict ?? self.KV_I18N?.t?.tr ?? {};
+const t = (k) => dict()[k] ?? self.KV_I18N?.t?.tr?.[k] ?? k;
 const store = {
   get(k) { try { return localStorage.getItem(k); } catch { return null; } },
   set(k, v) { try { localStorage.setItem(k, v); } catch { /* özel pencere vb. */ } },
@@ -95,7 +96,7 @@ let toastTimer;
 function toast(msg) {
   let t = $('.toast');
   if (!t) { t = document.createElement('div'); t.className = 'toast'; t.setAttribute('role', 'status'); }
-  (dlg.open ? dlg : document.body).appendChild(t);
+  (bill.open ? bill : dlg.open ? dlg : document.body).appendChild(t);
   t.textContent = msg;
   requestAnimationFrame(() => t.classList.add('on'));
   clearTimeout(toastTimer);
@@ -148,6 +149,62 @@ vcfBtn.addEventListener('click', async () => {
   try { await navigator.share({ files: [vcfFile], title: fullName() }); } catch { /* vazgeçti */ }
 });
 
+/* ---------- fatura ve banka bilgileri ---------- */
+// QR ekranındaki düğmeyle ya da gönderilen ?fatura bağlantısıyla açılır; kartın ana sayfasında görünmez.
+const bill = $('#bill');
+const billUrl = () => `${pageUrl()}?fatura`;
+const billMsg = (bold) => billingText(CARD, dict(), { link: billUrl(), bold });
+
+async function copyText(text) {
+  try { await navigator.clipboard.writeText(text); return true; } catch { /* eski tarayıcı */ }
+  const ta = document.createElement('textarea');
+  ta.value = text; ta.setAttribute('readonly', ''); ta.style.cssText = 'position:fixed;opacity:0;top:0;left:0';
+  (bill.open ? bill : document.body).appendChild(ta);
+  ta.select();
+  let ok = false;
+  try { ok = document.execCommand('copy'); } catch { ok = false; }
+  ta.remove();
+  return ok;
+}
+
+function openBill({ push = true } = {}) {
+  if (!bill.open) bill.showModal();
+  bill.scrollTop = 0;
+  if (push && location.hash !== '#fatura') {
+    // Geri tuşu fatura ekranını kapatıp QR ekranına dönsün (uygulama QR'la açıldığında #qr kaydı yoktur)
+    if (dlg.open && location.hash !== '#qr') history.replaceState(history.state, '', `${location.pathname}${location.search}#qr`);
+    history.pushState({ bill: 1 }, '', '#fatura');
+  }
+}
+function closeBill() {
+  if (location.hash === '#fatura' && history.state?.bill) { history.back(); return; }
+  if (bill.open) bill.close();
+}
+bill.addEventListener('close', () => {
+  if (location.hash === '#fatura') history.replaceState(null, '', location.pathname + location.search + (dlg.open ? '#qr' : ''));
+});
+addEventListener('popstate', () => { if (location.hash !== '#fatura' && bill.open) bill.close(); });
+$('#billClose').addEventListener('click', closeBill);
+for (const b of document.querySelectorAll('[data-open-bill]')) b.addEventListener('click', () => openBill());
+
+for (const b of document.querySelectorAll('[data-copy-val]')) {
+  b.addEventListener('click', async () => {
+    if (!(await copyText(b.dataset.copyVal))) return;
+    toast(t(b.dataset.copied || 'valCopied'));
+    b.classList.add('ok');
+    setTimeout(() => b.classList.remove('ok'), 1600);
+  });
+}
+$('[data-bill-wa]').addEventListener('click', () => {
+  window.open(`https://wa.me/?text=${encodeURIComponent(billMsg(true))}`, '_blank', 'noopener');
+});
+$('[data-bill-copy]').addEventListener('click', async () => {
+  if (await copyText(billMsg(false))) toast(t('valCopied'));
+});
+$('[data-bill-share]').addEventListener('click', async () => {
+  try { await navigator.share({ title: t('billTitle'), text: billMsg(false) }); } catch { /* vazgeçti */ }
+});
+
 for (const b of document.querySelectorAll('[data-share]')) b.addEventListener('click', share);
 for (const b of document.querySelectorAll('[data-whatsapp]')) b.addEventListener('click', whatsapp);
 for (const b of document.querySelectorAll('[data-copy]')) b.addEventListener('click', copyLink);
@@ -193,6 +250,10 @@ const params = new URLSearchParams(location.search);
 if (params.has('qr') || location.hash === '#qr' || standalone) {
   if (location.hash === '#qr') history.replaceState(null, '', location.pathname + location.search);
   openQr({ push: false });
+}
+if (params.has('fatura') || location.hash === '#fatura') {
+  if (location.hash === '#fatura') history.replaceState(null, '', location.pathname + location.search);
+  openBill({ push: false });
 }
 
 if ('serviceWorker' in navigator && location.protocol === 'https:' && !/^(localhost|127\.)/.test(location.hostname)) {

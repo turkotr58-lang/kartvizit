@@ -261,7 +261,7 @@ h1,.role,.qr h2,.qr-sub,.wordmark{direction:ltr;unicode-bidi:isolate;}
   width:46px;height:46px;border:0;border-radius:50%;background:#F1F3F8;color:#141A2B;
   display:grid;place-items:center;cursor:pointer;
 }
-.qr-lock{display:flex;align-items:center;gap:12px;margin:52px 0 16px;}
+.qr-lock{display:flex;align-items:center;gap:12px;margin:52px 0 16px;direction:ltr;}
 .qr-lock img{height:17px;width:auto;}
 .qr-lock .sep{width:1px;height:20px;background:#D5DAE6;}
 .qr-lock .bt{display:flex;align-items:center;gap:7px;}
@@ -301,6 +301,45 @@ h1,.role,.qr h2,.qr-sub,.wordmark{direction:ltr;unicode-bidi:isolate;}
 }
 .qr-tools svg.i{width:18px;height:18px;}
 .qr-note{margin:10px 0 0;max-width:340px;font-size:13px;color:#4A5370;}
+.bill-open{
+  display:flex;align-items:center;gap:10px;width:min(100%,360px);min-height:50px;margin-top:10px;
+  padding-inline:14px 10px;border-radius:12px;border:1px solid #DCE7E0;background:#F3F8F5;color:#141A2B;
+  font:inherit;font-size:14.5px;font-weight:600;text-align:start;cursor:pointer;
+}
+.bill-open > span{flex:1;}
+.bill-open svg.i{width:19px;height:19px;color:#24463A;}
+.bill-open svg.chev{width:18px;height:18px;color:#7A839E;}
+
+/* ---------- fatura ve banka ekranı ---------- */
+.bill{overflow-y:auto;}
+.bill h2{font-size:22px;text-wrap:balance;}
+.bill-sec{width:min(100%,380px);margin-top:20px;text-align:start;}
+.bill-sec h3{margin:0 0 8px;padding-inline:4px;font-size:12px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:#7A839E;}
+.iban-card{padding:14px;border-radius:16px;border:1px solid #E4E8F1;background:#F7F9FC;}
+.iban-card + .iban-card{margin-top:10px;}
+.iban-head{display:flex;align-items:center;gap:10px;}
+.cur{flex:none;width:36px;height:36px;border-radius:50%;display:grid;place-items:center;background:#24463A;color:#fff;font-size:17px;font-weight:700;}
+.cur.try{background:#156CFB;}
+.iban-head b{display:block;font-size:14.5px;line-height:1.25;}
+.iban-head .bank{display:block;font-size:13px;color:#4A5370;}
+.iban{margin:12px 0 0;font-size:clamp(14px,4.2vw,17px);font-weight:600;letter-spacing:.02em;font-variant-numeric:tabular-nums;color:#141A2B;text-align:left;}
+.iban-cp{
+  display:flex;align-items:center;justify-content:center;gap:8px;width:100%;min-height:44px;margin-top:12px;
+  border:0;border-radius:12px;background:#141A2B;color:#fff;font:inherit;font-size:15px;font-weight:600;cursor:pointer;
+}
+.iban-cp svg{width:18px;height:18px;}
+.kv{list-style:none;margin:10px 0 0;padding:0;border:1px solid #E4E8F1;border-radius:16px;overflow:hidden;background:#fff;}
+.kv li{display:flex;align-items:center;gap:10px;padding-block:10px;padding-inline:14px 8px;}
+.kv li + li{border-top:1px solid #EEF1F6;}
+.kv .t{flex:1;min-width:0;}
+.kv .k{display:block;font-size:12.5px;color:#7A839E;}
+.kv .v{display:block;margin-top:1px;font-size:15px;font-weight:600;line-height:1.35;color:#141A2B;overflow-wrap:anywhere;}
+[dir="rtl"] .kv .v{text-align:right;}
+.cp{flex:none;width:40px;height:40px;border:0;border-radius:10px;background:#F1F3F8;color:#4A5370;display:grid;place-items:center;cursor:pointer;}
+.cp svg{width:17px;height:17px;}
+.cp.ok{background:#E3F4EA;color:#1A7F45;}
+.iban-cp.ok{background:#1A7F45;}
+.bill .wa-btn{margin-top:22px;}
 
 .toast{
   position:fixed;left:50%;bottom:calc(92px + env(safe-area-inset-bottom));z-index:20;

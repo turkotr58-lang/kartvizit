@@ -26,9 +26,9 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wght@900&family=Inter:wght@400;500;600;700&display=swap">
-<link rel="stylesheet" href="styles.css?v=5a6777b836">
-<script defer src="vendor/qrcode.js?v=5a6777b836"></script>
-<script type="module" src="app.js?v=5a6777b836"></script>
+<link rel="stylesheet" href="styles.css?v=62814a9dd4">
+<script defer src="vendor/qrcode.js?v=62814a9dd4"></script>
+<script type="module" src="app.js?v=62814a9dd4"></script>
 </head>
 <body>
 <svg width="0" height="0" style="position:absolute" aria-hidden="true"><defs>
@@ -144,7 +144,50 @@
       <button type="button" id="shareVcf" hidden><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><line x1="19" x2="19" y1="8" y2="14"/><line x1="22" x2="16" y1="11" y2="11"/></svg><span data-i18n="sendVcf">Kişi kartı gönder</span></button>
       <button type="button" id="installBtn" hidden><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><rect width="14" height="20" x="5" y="2" rx="2" ry="2"/><path d="M12 18h.01"/></svg><span data-i18n="install">Ana ekrana ekle</span></button>
     </div>
+    <button type="button" class="bill-open" data-open-bill><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><line x1="3" x2="21" y1="22" y2="22"/><line x1="6" x2="6" y1="18" y2="11"/><line x1="10" x2="10" y1="18" y2="11"/><line x1="14" x2="14" y1="18" y2="11"/><line x1="18" x2="18" y1="18" y2="11"/><polygon points="12 2 20 7 4 7"/></svg><span data-i18n="billTitle">Fatura ve banka bilgileri</span><svg class="i chev" viewBox="0 0 24 24" aria-hidden="true"><path d="m9 18 6-6-6-6"/></svg></button>
     <p class="qr-note" id="installNote" hidden></p>
+  </div>
+</dialog>
+<dialog class="qr bill" id="bill" aria-labelledby="billTitle">
+  <div class="qr-in">
+    <button class="qr-close" id="billClose" type="button" aria-label="Kapat" data-i18n-aria="close"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M18 6 6 18"/><path d="m6 6 12 12"/></svg></button>
+    <div class="qr-lock" aria-hidden="true">
+      <img src="img/immoviewer.svg" alt="" width="109" height="17">
+      <span class="sep"></span>
+      <span class="bt"><svg class="" viewBox="0 0 100 100" aria-hidden="true"><use href="#bottimmo-mark"/></svg><span class="wordmark">BOTTIMMO</span></span>
+    </div>
+    <h2 id="billTitle"><span data-i18n="billTitle">Fatura ve banka bilgileri</span></h2>
+    <p class="qr-sub">Türkoğlu İnternet ve Yazılım<br>San. Tic. Ltd. Şti.</p>
+    <section class="bill-sec" aria-labelledby="h-bank">
+      <h3 id="h-bank"><span data-i18n="hBank">Banka hesapları</span></h3>
+      <div class="iban-card">
+        <div class="iban-head"><span class="cur try" aria-hidden="true">₺</span><span><b><span data-i18n="accTRY">TL hesabı</span></b><span class="bank">Garanti Bankası</span></span></div>
+        <p class="iban" dir="ltr">TR20 0006 2001 5450 0006 2990 91</p>
+        <button type="button" class="iban-cp" data-copy-val="TR200006200154500006299091" data-copied="ibanCopied"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><rect width="14" height="14" x="8" y="8" rx="2" ry="2"/><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2"/></svg><span data-i18n="copyIban">IBAN’ı kopyala</span></button>
+      </div>
+      <div class="iban-card">
+        <div class="iban-head"><span class="cur eur" aria-hidden="true">€</span><span><b><span data-i18n="accEUR">EUR hesabı</span></b><span class="bank">Garanti Bankası</span></span></div>
+        <p class="iban" dir="ltr">TR07 0006 2001 5450 0009 0990 36</p>
+        <button type="button" class="iban-cp" data-copy-val="TR070006200154500009099036" data-copied="ibanCopied"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><rect width="14" height="14" x="8" y="8" rx="2" ry="2"/><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2"/></svg><span data-i18n="copyIban">IBAN’ı kopyala</span></button>
+      </div>
+      <ul class="kv"><li><span class="t"><span class="k"><span data-i18n="lblHolder">Alıcı</span></span><span class="v" dir="ltr">Türkoğlu İnternet ve Yazılım San. Tic. Ltd. Şti.</span></span><button type="button" class="cp" data-copy-val="Türkoğlu İnternet ve Yazılım San. Tic. Ltd. Şti." data-copied="valCopied" aria-label="Kopyala" data-i18n-aria="copyVal"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><rect width="14" height="14" x="8" y="8" rx="2" ry="2"/><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2"/></svg></button></li></ul>
+    </section>
+    <section class="bill-sec" aria-labelledby="h-fatura">
+      <h3 id="h-fatura"><span data-i18n="hInvoice">Fatura bilgileri</span></h3>
+      <ul class="kv">
+        <li><span class="t"><span class="k"><span data-i18n="lblTitle">Unvan</span></span><span class="v" dir="ltr">Türkoğlu İnternet ve Yazılım San. Tic. Ltd. Şti.</span></span><button type="button" class="cp" data-copy-val="Türkoğlu İnternet ve Yazılım San. Tic. Ltd. Şti." data-copied="valCopied" aria-label="Kopyala" data-i18n-aria="copyVal"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><rect width="14" height="14" x="8" y="8" rx="2" ry="2"/><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2"/></svg></button></li>
+        <li><span class="t"><span class="k"><span data-i18n="lblAddress">Adres</span></span><span class="v" dir="ltr">Kızılırmak Mah., Ufuk Üniversitesi Cad., Next Level Loft Ofis 4/72-76, Kat 27, 06510 Çankaya/Ankara</span></span><button type="button" class="cp" data-copy-val="Kızılırmak Mah., Ufuk Üniversitesi Cad., Next Level Loft Ofis 4/72-76, Kat 27, 06510 Çankaya/Ankara" data-copied="valCopied" aria-label="Kopyala" data-i18n-aria="copyVal"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><rect width="14" height="14" x="8" y="8" rx="2" ry="2"/><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2"/></svg></button></li>
+        <li><span class="t"><span class="k"><span data-i18n="lblTaxOffice">Vergi dairesi</span></span><span class="v" dir="ltr">Çankaya</span></span></li>
+        <li><span class="t"><span class="k"><span data-i18n="lblTaxNo">Vergi no</span></span><span class="v" dir="ltr">8800313762</span></span><button type="button" class="cp" data-copy-val="8800313762" data-copied="valCopied" aria-label="Kopyala" data-i18n-aria="copyVal"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><rect width="14" height="14" x="8" y="8" rx="2" ry="2"/><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2"/></svg></button></li>
+        <li><span class="t"><span class="k"><span data-i18n="lblMersis">MERSİS no</span></span><span class="v" dir="ltr">088003137200019</span></span><button type="button" class="cp" data-copy-val="088003137200019" data-copied="valCopied" aria-label="Kopyala" data-i18n-aria="copyVal"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><rect width="14" height="14" x="8" y="8" rx="2" ry="2"/><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2"/></svg></button></li>
+        <li><span class="t"><span class="k"><span data-i18n="lblTradeReg">Ticaret sicil no</span></span><span class="v" dir="ltr">399757</span></span><button type="button" class="cp" data-copy-val="399757" data-copied="valCopied" aria-label="Kopyala" data-i18n-aria="copyVal"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><rect width="14" height="14" x="8" y="8" rx="2" ry="2"/><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2"/></svg></button></li>
+      </ul>
+    </section>
+    <button type="button" class="wa-btn" data-bill-wa><svg class="b" viewBox="0 0 24 24" aria-hidden="true"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413Z"/></svg><span data-i18n="waSend">WhatsApp’ta gönder</span></button>
+    <div class="qr-tools">
+      <button type="button" data-bill-share data-native-share><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><line x1="8.59" x2="15.42" y1="13.51" y2="17.49"/><line x1="15.41" x2="8.59" y1="6.51" y2="10.49"/></svg><span data-i18n="otherApps">Diğer uygulamalar</span></button>
+      <button type="button" data-bill-copy><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><rect width="14" height="14" x="8" y="8" rx="2" ry="2"/><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2"/></svg><span data-i18n="copyAll">Tümünü kopyala</span></button>
+    </div>
   </div>
 </dialog>
 <script>
@@ -185,6 +228,13 @@ self.KV_I18N = {
       shareText: 'Merhaba, dijital kartvizitim aşağıda. Tek dokunuşla rehberinize kaydedebilirsiniz:',
       vcardLabel: 'Dijital kartvizit',
       language: 'Dil',
+      // fatura ve banka ekranı
+      billTitle: 'Fatura ve banka bilgileri', hInvoice: 'Fatura bilgileri', hBank: 'Banka hesapları',
+      lblTitle: 'Unvan', lblAddress: 'Adres', lblTaxOffice: 'Vergi dairesi',
+      lblTaxNo: 'Vergi no', lblMersis: 'MERSİS no', lblTradeReg: 'Ticaret sicil no',
+      accTRY: 'TL hesabı', accEUR: 'EUR hesabı', lblHolder: 'Alıcı',
+      copyIban: 'IBAN’ı kopyala', copyAll: 'Tümünü kopyala', copyVal: 'Kopyala',
+      ibanCopied: 'IBAN kopyalandı', valCopied: 'Kopyalandı', billLink: 'Tek dokunuşla kopyalamak için:',
     },
     en: {
       docTitle: 'Digital Business Card',
@@ -213,6 +263,13 @@ self.KV_I18N = {
       shareText: 'Hello, here is my digital business card. You can save it to your contacts with one tap:',
       vcardLabel: 'Digital business card',
       language: 'Language',
+      // fatura ve banka ekranı
+      billTitle: 'Billing and bank details', hInvoice: 'Billing details', hBank: 'Bank accounts',
+      lblTitle: 'Company name', lblAddress: 'Address', lblTaxOffice: 'Tax office',
+      lblTaxNo: 'Tax ID', lblMersis: 'MERSIS no.', lblTradeReg: 'Trade registry no.',
+      accTRY: 'TRY account', accEUR: 'EUR account', lblHolder: 'Account holder',
+      copyIban: 'Copy IBAN', copyAll: 'Copy all', copyVal: 'Copy',
+      ibanCopied: 'IBAN copied', valCopied: 'Copied', billLink: 'Copy with one tap:',
     },
     de: {
       docTitle: 'Digitale Visitenkarte',
@@ -241,6 +298,13 @@ self.KV_I18N = {
       shareText: 'Hallo, hier ist meine digitale Visitenkarte. Mit einem Tipp in Ihren Kontakten speichern:',
       vcardLabel: 'Digitale Visitenkarte',
       language: 'Sprache',
+      // fatura ve banka ekranı
+      billTitle: 'Rechnungs- und Bankdaten', hInvoice: 'Rechnungsdaten', hBank: 'Bankverbindungen',
+      lblTitle: 'Firmenname', lblAddress: 'Adresse', lblTaxOffice: 'Finanzamt',
+      lblTaxNo: 'Steuernummer', lblMersis: 'MERSIS-Nr.', lblTradeReg: 'Handelsregister-Nr.',
+      accTRY: 'TRY-Konto', accEUR: 'EUR-Konto', lblHolder: 'Kontoinhaber',
+      copyIban: 'IBAN kopieren', copyAll: 'Alles kopieren', copyVal: 'Kopieren',
+      ibanCopied: 'IBAN kopiert', valCopied: 'Kopiert', billLink: 'Mit einem Tippen kopieren:',
     },
     ru: {
       docTitle: 'Цифровая визитка',
@@ -269,6 +333,13 @@ self.KV_I18N = {
       shareText: 'Здравствуйте! Моя цифровая визитка — сохранить в контакты можно одним касанием:',
       vcardLabel: 'Цифровая визитка',
       language: 'Язык',
+      // fatura ve banka ekranı
+      billTitle: 'Реквизиты и банковские данные', hInvoice: 'Реквизиты', hBank: 'Банковские счета',
+      lblTitle: 'Наименование', lblAddress: 'Адрес', lblTaxOffice: 'Налоговая инспекция',
+      lblTaxNo: 'Налоговый номер', lblMersis: 'Номер MERSIS', lblTradeReg: 'Номер в торговом реестре',
+      accTRY: 'Счёт в лирах (TRY)', accEUR: 'Счёт в евро (EUR)', lblHolder: 'Получатель',
+      copyIban: 'Скопировать IBAN', copyAll: 'Скопировать всё', copyVal: 'Копировать',
+      ibanCopied: 'IBAN скопирован', valCopied: 'Скопировано', billLink: 'Скопировать одним касанием:',
     },
     uk: {
       docTitle: 'Цифрова візитка',
@@ -297,6 +368,13 @@ self.KV_I18N = {
       shareText: 'Вітаю! Моя цифрова візитка — зберегти в контакти можна одним дотиком:',
       vcardLabel: 'Цифрова візитка',
       language: 'Мова',
+      // fatura ve banka ekranı
+      billTitle: 'Реквізити та банківські дані', hInvoice: 'Реквізити', hBank: 'Банківські рахунки',
+      lblTitle: 'Назва компанії', lblAddress: 'Адреса', lblTaxOffice: 'Податкова інспекція',
+      lblTaxNo: 'Податковий номер', lblMersis: 'Номер MERSIS', lblTradeReg: 'Номер у торговому реєстрі',
+      accTRY: 'Рахунок у лірах (TRY)', accEUR: 'Рахунок у євро (EUR)', lblHolder: 'Отримувач',
+      copyIban: 'Скопіювати IBAN', copyAll: 'Скопіювати все', copyVal: 'Копіювати',
+      ibanCopied: 'IBAN скопійовано', valCopied: 'Скопійовано', billLink: 'Скопіювати одним дотиком:',
     },
     ar: {
       docTitle: 'بطاقة أعمال رقمية',
@@ -325,6 +403,13 @@ self.KV_I18N = {
       shareText: 'مرحبًا، هذه بطاقة أعمالي الرقمية. يمكنك حفظها في جهات الاتصال بلمسة واحدة:',
       vcardLabel: 'بطاقة أعمال رقمية',
       language: 'اللغة',
+      // fatura ve banka ekranı
+      billTitle: 'بيانات الفوترة والحساب البنكي', hInvoice: 'بيانات الفاتورة', hBank: 'الحسابات البنكية',
+      lblTitle: 'اسم الشركة', lblAddress: 'العنوان', lblTaxOffice: 'مكتب الضرائب',
+      lblTaxNo: 'الرقم الضريبي', lblMersis: 'رقم MERSIS', lblTradeReg: 'رقم السجل التجاري',
+      accTRY: 'حساب بالليرة التركية (TRY)', accEUR: 'حساب باليورو (EUR)', lblHolder: 'اسم المستفيد',
+      copyIban: 'نسخ IBAN', copyAll: 'نسخ الكل', copyVal: 'نسخ',
+      ibanCopied: 'تم نسخ IBAN', valCopied: 'تم النسخ', billLink: 'للنسخ بلمسة واحدة:',
     },
   },
 };
