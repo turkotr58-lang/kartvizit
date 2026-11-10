@@ -1,9 +1,9 @@
 // Çevrimdışı önbellek: kartvizit ve QR ekranı internet yokken de açılır.
 // Sayfa (HTML) internetten taze alınır (3 sn içinde gelmezse önbellekten),
 // diğer dosyalar sürüm numaralı önbellekten gelir; her yayında sürüm değişir.
-const CACHE = 'kartvizit-0ab0225def';
+const CACHE = 'kartvizit-5a6777b836';
 const FONTS = 'kartvizit-fonts';
-const ASSETS = ["./","card.js","app.js?v=0ab0225def","styles.css?v=0ab0225def","vendor/qrcode.js?v=0ab0225def","img/immoviewer.svg","img/immoviewer-white.svg","pwa/favicon.svg","pwa/icon-192.png","pwa/apple-touch-icon.png","manifest.webmanifest","tuncay-turkoglu.vcf","tuncay-turkoglu-en.vcf","tuncay-turkoglu-de.vcf","tuncay-turkoglu-ru.vcf","tuncay-turkoglu-uk.vcf","tuncay-turkoglu-ar.vcf"];
+const ASSETS = ["./","card.js","app.js?v=5a6777b836","styles.css?v=5a6777b836","vendor/qrcode.js?v=5a6777b836","img/immoviewer.svg","img/immoviewer-white.svg","pwa/favicon.svg","pwa/icon-192.png","pwa/apple-touch-icon.png","manifest.webmanifest","tuncay-turkoglu.vcf","tuncay-turkoglu-en.vcf","tuncay-turkoglu-de.vcf","tuncay-turkoglu-ru.vcf","tuncay-turkoglu-uk.vcf","tuncay-turkoglu-ar.vcf"];
 const pageKey = (url) => url.origin + url.pathname.replace(/index\.html$/, '');
 
 self.addEventListener('install', (e) => {
